@@ -2,37 +2,39 @@
 
 import { useState } from "react";
 import ProductCard from "./ProductCard";
-import ROIPopup from "./ROIPopup";
+import BTCValuePopup from "./BTCValuePopup";
 
 export default function ClientHome({ products }) {
-  const [roi, setRoi] = useState(null);
+  const [btcValue, setBtcValue] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const calculateROI = async (product) => {
-    // Implement ROI calculation logic here
-    // This is a placeholder, replace with actual API call and calculation
+  const calculateBTCValue = async (product) => {
     const response = await fetch(
       `/api/bitcoin-price?date=${product.releaseDate}&price=${product.price}`
     );
     const data = await response.json();
-    setRoi(data);
+    setBtcValue(data);
     setShowPopup(true);
   };
 
   return (
     <>
+      <p className="text-center text-white mb-8">
+        Click on a product to see what your investment would be worth if you
+        bought Bitcoin instead.
+      </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard
             key={product.name}
             product={product}
-            onCalculate={calculateROI}
+            onCalculate={calculateBTCValue}
           />
         ))}
       </div>
 
-      {showPopup && roi && (
-        <ROIPopup roi={roi} onClose={() => setShowPopup(false)} />
+      {showPopup && btcValue && (
+        <BTCValuePopup value={btcValue} onClose={() => setShowPopup(false)} />
       )}
     </>
   );

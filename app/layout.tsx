@@ -5,9 +5,9 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Bitcoin ROI Calculator",
+  title: "What If You Bought BTC Instead?",
   description:
-    "Calculate ROI if you had invested in Bitcoin instead of products",
+    "Calculate the value if you had invested in Bitcoin instead of popular products",
 };
 
 export default function RootLayout({
