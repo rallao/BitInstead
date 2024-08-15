@@ -13,25 +13,31 @@ export async function GET(request: Request) {
   }
 
   try {
-    // This is a placeholder. In a real application, you'd fetch historical and current Bitcoin prices here.
+    // This is where you'd typically fetch historical and current Bitcoin prices
+    // For now, let's use placeholder values
     const historicalPrice = 100; // Example value
     const currentPrice = 50000; // Example value
 
     const bitcoinAmount = Number(price) / historicalPrice;
     const currentValue = bitcoinAmount * currentPrice;
-    const roi = ((currentValue - Number(price)) / Number(price)) * 100;
+
+    console.log("API calculation:", {
+      historicalPrice,
+      currentPrice,
+      bitcoinAmount,
+      currentValue,
+    });
 
     return NextResponse.json({
-      percentage: roi,
-      value: currentValue,
+      currentValue: currentValue,
       productName: "Example Product",
       productPrice: Number(price),
       releaseDate: date,
     });
   } catch (error) {
-    console.error("Error calculating ROI:", error);
+    console.error("Error calculating BTC value:", error);
     return NextResponse.json(
-      { error: "Failed to calculate ROI" },
+      { error: "Failed to calculate BTC value" },
       { status: 500 }
     );
   }

@@ -13,10 +13,10 @@ export default function ClientHome({ products }) {
       `/api/bitcoin-price?date=${product.releaseDate}&price=${product.price}`
     );
     const data = await response.json();
+    console.log("API response:", data);
     setBtcValue(data);
     setShowPopup(true);
   };
-
   return (
     <>
       <p className="text-center text-white mb-8">
