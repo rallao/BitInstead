@@ -1,36 +1,23 @@
-"use client";
-
-interface Product {
-  name: string;
-  releaseDate: string;
-  price: number;
-  image: string;
-}
-
 interface ProductCardProps {
-  product: Product;
-  onCalculate: (product: Product) => void;
+  product: {
+    name: string;
+    price: number;
+    releaseDate: string;
+  };
+  onSelect: (product: ProductCardProps["product"]) => void;
 }
 
-export default function ProductCard({
-  product,
-  onCalculate,
-}: ProductCardProps) {
+export default function ProductCard({ product, onSelect }: ProductCardProps) {
   return (
     <div
-      className="bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-orange-500/50"
-      onClick={() => onCalculate(product)}
+      className="bg-[#f7b750] rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow duration-300"
+      onClick={() => onSelect(product)}
     >
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-4">
-        <h2 className="font-bold text-xl mb-2 text-white">{product.name}</h2>
-        <p className="text-orange-300">Price: ${product.price}</p>
-        <p className="text-gray-400">Release Date: {product.releaseDate}</p>
-      </div>
+      <h2 className="text-xl font-bold mb-2 text-[#5a3511]">{product.name}</h2>
+      <p className="text-[#5a3511]">Price: ${product.price}</p>
+      <p className="text-[#5a3511] text-sm">
+        Release Date: {product.releaseDate}
+      </p>
     </div>
   );
 }
