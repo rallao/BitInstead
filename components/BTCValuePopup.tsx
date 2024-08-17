@@ -1,19 +1,51 @@
+import { useState, useEffect } from "react";
 import { XCircle } from "lucide-react";
 import { format } from "date-fns";
+import axios from "axios";
 
 interface BTCValuePopupProps {
   value: {
-    currentValue: number;
     productName: string;
     productPrice: number;
     releaseDate: string;
+    btcPrice: number;
   };
   onClose: () => void;
 }
 
 export default function BTCValuePopup({ value, onClose }: BTCValuePopupProps) {
-  const percentageChange =
-    ((value.currentValue - value.productPrice) / value.productPrice) * 100;
+  const [currentValue, setCurrentValue] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCurrentBitcoinPrice = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+        );
+        const currentBtcPrice = response.data.bitcoin.usd;
+
+        const bitcoinAmount = value.productPrice / value.btcPrice;
+        const calculatedCurrentValue = bitcoinAmount * currentBtcPrice;
+        setCurrentValue(calculatedCurrentValue);
+      } catch (err) {
+        setError("Failed to fetch current Bitcoin price. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCurrentBitcoinPrice();
+  }, [value.productPrice, value.btcPrice]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+  const percentageChange = currentValue
+    ? ((currentValue - value.productPrice) / value.productPrice) * 100
+    : 0;
   const isGain = percentageChange >= 0;
 
   const formattedReleaseDate = format(
@@ -24,11 +56,13 @@ export default function BTCValuePopup({ value, onClose }: BTCValuePopupProps) {
     style: "currency",
     currency: "USD",
   });
-  const formattedCurrentValue = value.currentValue.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 2,
-  });
+  const formattedCurrentValue = currentValue
+    ? currentValue.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 2,
+      })
+    : "N/A";
   const formattedPercentage = percentageChange.toLocaleString("en-US", {
     style: "percent",
     minimumFractionDigits: 2,

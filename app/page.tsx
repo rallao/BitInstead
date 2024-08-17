@@ -34,10 +34,10 @@ export default function Home() {
       {selectedProduct && (
         <BTCValuePopup
           value={{
-            currentValue: 0, // This should be calculated
             productName: selectedProduct.name,
             productPrice: selectedProduct.price,
             releaseDate: selectedProduct.releaseDate,
+            btcPrice: selectedProduct.btcPrice,
           }}
           onClose={() => setSelectedProduct(null)}
         />
