@@ -5,3 +5,18 @@
 body {
   @apply bg-[#f39c12] text-[#5a3511];
 }
+
+/* Hide scrollbar while maintaining functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
