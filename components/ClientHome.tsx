@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import ProductCard from "./ProductCard";
-import BTCValuePopup from "./BTCValuePopup";
 
 export default function ClientHome({ products }) {
   const [btcValue, setBtcValue] = useState(null);
